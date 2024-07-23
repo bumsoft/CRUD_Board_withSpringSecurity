@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
+<head>
+    <meta charset="UTF-8">
+    <title>피드</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #343a40;
+            color: #fff;
+            margin: -20px -20px 20px -20px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .post-card {
+            display:block;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px #b8b8f4;
+            text-decoration: none;
+        }
+        .post-card:hover {
+            background-color: #b8b8f4;
+        }
+        .title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .post-time {
+            font-weight: bold;
+            font-size: 10px;
+            margin-bottom: 10px;
+        }
+        .post-writer{
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .post-content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .post-content {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        label {
+            display: block;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        input[type="text"], textarea {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-right: 10px;
+        }
+        input[type="text"] {
+            width: 200px;
+        }
+        textarea {
+            resize: vertical;
+            height: 150px;
+            width: 100%;
+        }
+        button {
+            background-color: rgb(4, 197, 174);
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: rgb(40, 104, 98);
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: rgb(4, 197, 174);
+            border: none;
+            border-radius: 4px;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: rgb(40, 104, 98);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>게시판</h1>
+    <a href="/" class="btn">홈</a>
+    <a sec:authorize="isAnonymous()" th:href="@{/register}" class="btn">회원가입</a>
+    <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn">로그인</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn">로그아웃</a>
+    <a href="/post/new" class="btn">게시글 작성</a>
+    <form action="/post/search" method="post">
+        <div class="form-group">
+            <label for="Keyword"></label>
+            <input type="text" id="Keyword" name="Keyword" placeholder="게시글 제목을 입력하세요">
+            <button type="submit">검색</button>
+        </div>
+    </form>
+
+    <div th:each="post : ${postList}">
+        <a th:href="@{/post/{id}(id=${post.id})}" class="post-card">
+                <div class="title" th:text="${post.title}"></div>
+                <div class="post-writer" th:text="${post.writer}"></div>
+            <div class="post-time" th:text="${post.createdDate}"></div>
+            <div class="post-content" th:text="${post.content}"></div>
+        </a>
+    </div>
+</div>
+</body>
+</html>
