@@ -101,7 +101,14 @@
         button:hover {
             background-color: rgb(40, 104, 98);
         }
-
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom:5px;
+        }
     </style>
 </head>
 <body>
@@ -135,7 +142,8 @@
 
             <form th:action="@{/post/{post_id}/comment/{comment_id}/modify(post_id=${post.id}, comment_id=${comment.id})}" method="post">
                 <div class="form-group">
-                    <textarea name="content" th:text="${comment.content}"></textarea>
+<!--                    <textarea name="content" th:text="${comment.content}"></textarea>-->
+                    <input type="text" name="content" th:value="${comment.content}"/>
                 </div>
                 <button type="submit">수정</button>
             </form>
